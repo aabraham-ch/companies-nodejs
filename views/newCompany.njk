@@ -1,0 +1,16 @@
+{% extends 'layout.njk' %}
+
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+{% block content %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+
+{{ govukPanel({
+  titleText: "Application complete",
+  text: company.registrationNumber
+}) }}
+
+
+{% endblock %}

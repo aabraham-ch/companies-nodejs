@@ -1,0 +1,105 @@
+{% extends 'layout.njk' %}
+
+
+{% block content %}
+
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+<form action="http://localhost:3000/created" method="POST">
+
+{% call govukFieldset({
+  legend: {
+    text: "Enter your company details",
+    classes: "govuk-fieldset__legend--l",
+    isPageHeading: true
+  }
+}) %}
+
+  {{ govukInput({
+    label: {
+      text: "Company Name"
+    },
+    id: "company-name",
+    name: "companyName"
+  }) }}
+
+  {{ govukInput({
+    label: {
+      text: "Registered Address"
+    },
+    id: "address-line",
+    name: "registeredAddress"
+  }) }}
+
+
+
+
+{{ govukRadios({
+  name: "type",
+  fieldset: {
+    legend: {
+      text: "What is your company type?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      text: "Limited Liability Partnership",
+      value: "LLP"
+    },
+    {
+      text: "Foreign Company",
+      value: "FXC"
+    },
+    {
+      text: "Non Profit Organization",
+      value: "NPO"
+    },
+    {
+      text: "Limited Company",
+      value: "LTD"
+    }
+  ]
+}) }}
+
+{{ govukRadios({
+  name: "active",
+  fieldset: {
+    legend: {
+      text: "Is your company active?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      text: "TRUE",
+      value: "true"
+    },
+    {
+      text: "FALSE",
+      value: "false"
+    }
+  ]
+}) }}
+
+{{ govukButton({
+  text: "Submit",
+  type: "submit"  
+}) }}
+
+</form>
+
+
+
+{% endcall %}
+
+{% endblock %}
+
+
+
+

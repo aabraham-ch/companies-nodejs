@@ -1,0 +1,97 @@
+{% extends 'layout.njk' %}
+
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+
+
+{% block content %}
+
+<ul>
+    {% for company in companies %}
+
+    {{ govukTable({
+      caption: company.companyName,
+      captionClasses: "govuk-table__caption--m",
+      firstCellIsHeader: true,
+      head: [
+        { 
+          text: "Number"
+           },
+        { 
+          text: "Type"
+           },
+        { 
+          text: "Address"
+           },
+        { 
+          text: "Incorporation" 
+          },
+        { 
+          text: "Active"
+           }
+      ],
+      rows: [
+        [
+          { 
+            text: company.registrationNumber
+             },
+          { 
+            text: company.type
+             },
+          { 
+            text: company.registeredAddress
+             },
+          { 
+            text: company.incorporatedOn
+             },
+          { 
+            text: company.active
+             }
+        ]
+      ]
+    }) }}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+    {{ govukButton({
+      text: "Dissolve Company",
+      classes: "govuk-button",
+      attributes: {
+        "id": "dissolve-button-" + loop.index
+      }
+    }) }}
+
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+    <div id="notification-banner-{{ loop.index }}" class="govuk-!-display-none">
+      {% set html %}
+        <p class="govuk-notification-banner__heading">
+          Are you sure you want to delete {{ company.companyName }}?
+          <a class="govuk-notification-banner__link" href=http://localhost:3000/delete/?q={{company.registrationNumber}}>Delete Company</a>.
+        </p>
+      {% endset %}
+
+      {{ govukNotificationBanner({
+        html: html
+      }) }}
+    </div>
+
+    {% endfor %}
+    {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+
+</ul>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("[id^='dissolve-button-']").forEach(button => {
+      button.addEventListener("click", function() {
+        const index = this.id.split("-").pop(); // Get unique index from button ID
+        document.getElementById("notification-banner-" + index).classList.remove("govuk-!-display-none");
+      });
+    });
+  });
+</script>
+
+{% endblock %}
