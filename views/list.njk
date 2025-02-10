@@ -68,7 +68,7 @@
       {% set html %}
         <p class="govuk-notification-banner__heading">
           Are you sure you want to delete {{ company.companyName }}?
-          <a class="govuk-notification-banner__link" href=http://localhost:3000/delete/?q={{company.registrationNumber}}>Delete Company</a>.
+          <a class="govuk-notification-banner__link" href=/delete/?q={{company.registrationNumber}}>Delete Company</a>.
         </p>
       {% endset %}
 
@@ -79,7 +79,26 @@
 
     {% endfor %}
     {% from "govuk/components/pagination/macro.njk" import govukPagination %}
-
+{{ govukPagination({
+  previous: {
+    href: "#"
+  },
+  next: {
+    href: "#"
+  },
+  items: [
+    {
+      number: 1,
+      current: currentPage === 0,
+      href: "/list?pageNumber=0"
+    },
+    {
+      number: 2,
+      current: currentPage === 1,
+      href: "/list?pageNumber=1"
+    }
+  ]
+}) }}
 
 </ul>
 
@@ -87,7 +106,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll("[id^='dissolve-button-']").forEach(button => {
       button.addEventListener("click", function() {
-        const index = this.id.split("-").pop(); // Get unique index from button ID
+        const index = this.id.split("-").pop();
         document.getElementById("notification-banner-" + index).classList.remove("govuk-!-display-none");
       });
     });

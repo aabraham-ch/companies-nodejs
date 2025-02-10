@@ -57,9 +57,7 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/list',async (req, res) => {
-    try {
-
-        let pageNumber = Math.max(1, parseInt(req.query.pageNumber as string) || 1);
+        let pageNumber = Math.max(0, parseInt(req.query.pageNumber as string) || 0);
         let result = await APIMethod.getCompanies(pageNumber);
         console.log("i am getting result", result)
         res.render('list', {
@@ -69,9 +67,6 @@ app.get('/list',async (req, res) => {
             companies: result,
             currentPage: pageNumber
         });
-    } catch {
-
-    }
 
 });
 
